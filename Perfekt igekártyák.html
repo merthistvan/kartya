@@ -1,0 +1,499 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Perfekt igekártyák</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap">
+<style>
+/* Layout: one centered column. Controls on top, one big flip card (paper face = German, ink face = Hungarian), a nav row, then the written-out sein/haben legend. */
+:root {
+  --bg: #EDF0F6;
+  --surface: #FFFFFF;
+  --ink: #141C33;
+  --muted: #566080;
+  --line: #D3D9E7;
+  --accent: #3552D4;
+  --face-de-bg: #FFFFFF;
+  --face-de-fg: #141C33;
+  --face-de-line: #EBEEF6;
+  --face-hu-bg: #17224A;
+  --face-hu-fg: #F1F3FA;
+  --sein-bg: #FCE7C8;
+  --sein-fg: #8A3F05;
+  --haben-bg: #CDEEE8;
+  --haben-fg: #0B5750;
+  --chip-neutral-fg: #2B2F3F;
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --shadow: 0 1px 2px rgba(20, 28, 51, .08), 0 14px 32px -14px rgba(20, 28, 51, .3);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C1224;
+    --surface: #151D36;
+    --ink: #EAEEF9;
+    --muted: #9AA5C4;
+    --line: #28335A;
+    --accent: #8DA2FB;
+    --face-de-bg: #18213D;
+    --face-de-fg: #EAEEF9;
+    --face-de-line: #212B4E;
+    --face-hu-bg: #E9EDF8;
+    --face-hu-fg: #141C33;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 32px -14px rgba(0, 0, 0, .65);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C1224;
+  --surface: #151D36;
+  --ink: #EAEEF9;
+  --muted: #9AA5C4;
+  --line: #28335A;
+  --accent: #8DA2FB;
+  --face-de-bg: #18213D;
+  --face-de-fg: #EAEEF9;
+  --face-de-line: #212B4E;
+  --face-hu-bg: #E9EDF8;
+  --face-hu-fg: #141C33;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 32px -14px rgba(0, 0, 0, .65);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+  padding-block: 24px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.wrap { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.wrap > * { min-width: 0; }
+
+header h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+header p { margin: 0; color: var(--muted); }
+
+/* Controls */
+.controls { display: flex; flex-direction: column; gap: 16px; }
+.ctl { display: flex; flex-direction: column; gap: 8px; }
+.ctl-label { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.seg { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 4px; gap: 4px; }
+.seg-btn { min-height: 44px; border: 0; border-radius: 9px; background: transparent; font-weight: 700; }
+.seg-btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { min-height: 40px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); }
+.chip .n { color: var(--muted); font-size: .85em; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip[aria-pressed="true"] .n { color: inherit; opacity: .75; }
+.chip.shuffle { margin-left: auto; }
+
+/* Progress */
+.progress { display: flex; flex-direction: column; gap: 8px; }
+.progress-text { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; color: var(--muted); }
+#pos { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.bar { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--ink); transition: width .3s; }
+
+/* Card */
+.stage { perspective: 1400px; }
+.card { height: 340px; position: relative; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: pan-y; border-radius: 20px; }
+@media (min-width: 560px) { .card { height: 380px; } }
+.inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.3, .7, .2, 1); }
+.inner.is-flipped { transform: rotateY(180deg); }
+.inner.no-anim { transition: none; }
+.face {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: safe center; align-items: center; gap: 16px;
+  padding: 44px 22px 24px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  overflow: auto;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.face.back { transform: rotateY(180deg); }
+.face.de {
+  background-color: var(--face-de-bg);
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--face-de-line) 31px, var(--face-de-line) 32px);
+  color: var(--face-de-fg);
+  border: 1px solid var(--line);
+}
+.face.hu { background: var(--face-hu-bg); color: var(--face-hu-fg); }
+.face-label { position: absolute; top: 16px; left: 20px; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .65; }
+
+.inf { font-family: var(--display); font-weight: 700; font-size: clamp(2.1rem, 9vw, 3.4rem); line-height: 1.05; letter-spacing: -.01em; overflow-wrap: anywhere; text-wrap: balance; }
+.pre { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 7px; }
+.sep { color: var(--accent); font-weight: 500; margin: 0 .04em; }
+.perfekt { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; justify-content: center; }
+.pf { font-family: var(--display); font-weight: 500; font-size: clamp(1.2rem, 5vw, 1.5rem); }
+.pf b { font-weight: 700; }
+.note { margin: 0; max-width: 36ch; font-size: .9rem; opacity: .78; }
+
+.meanings { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.meanings li { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: center; }
+.mean { font-family: var(--display); font-weight: 500; font-size: clamp(1.7rem, 7vw, 2.5rem); line-height: 1.15; text-wrap: balance; overflow-wrap: anywhere; }
+
+/* Auxiliary chips */
+.aux { display: inline-block; padding: 3px 11px; border-radius: 99px; font-size: .82rem; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
+.aux-i { background: var(--sein-bg); color: var(--sein-fg); }
+.aux-h { background: var(--haben-bg); color: var(--haben-fg); }
+.aux-ih { background: linear-gradient(90deg, var(--sein-bg) 50%, var(--haben-bg) 50%); color: var(--chip-neutral-fg); }
+.aux-bar { background: var(--line); color: var(--ink); }
+
+/* Nav */
+.nav { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 10px; }
+.nav button { min-height: 52px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); font-weight: 700; }
+.nav button.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* Legend */
+.legend { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.legend h2 { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin: 0 0 14px; }
+.legend dl { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.legend .row { display: grid; grid-template-columns: 4.2rem 1fr; gap: 12px; align-items: start; }
+.legend dt { margin: 0; }
+.legend dd { margin: 0; }
+.ex { font-family: var(--display); font-weight: 500; background: var(--bg); padding: 1px 7px; border-radius: 6px; white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .inner, .bar i { transition: none; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Rendhagyó igék a Perfektben</h1>
+    <p>Erős és vegyes ragozású igék · <span id="total">56</span> kártya</p>
+  </header>
+
+  <section class="controls" aria-label="Beállítások">
+    <div class="ctl">
+      <span class="ctl-label" id="lbl-dir">Alapértelmezett oldal (ez látszik először)</span>
+      <div class="seg" role="group" aria-labelledby="lbl-dir">
+        <button type="button" class="seg-btn" id="dir-de" data-dir="de" aria-pressed="true">Német elöl</button>
+        <button type="button" class="seg-btn" id="dir-hu" data-dir="hu" aria-pressed="false">Magyar elöl</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="ctl-label" id="lbl-filter">Szűrés segédige szerint</span>
+      <div class="chips" role="group" aria-labelledby="lbl-filter">
+        <button type="button" class="chip" id="f-all" data-filter="all" aria-pressed="true">Mind <span class="n"></span></button>
+        <button type="button" class="chip" id="f-i" data-filter="i" aria-pressed="false">i. · sein <span class="n"></span></button>
+        <button type="button" class="chip" id="f-h" data-filter="h" aria-pressed="false">h. · haben <span class="n"></span></button>
+        <button type="button" class="chip" id="f-ih" data-filter="ih" aria-pressed="false">i./h. · mindkettő <span class="n"></span></button>
+        <button type="button" class="chip shuffle" id="shuffle" aria-pressed="false">Keverés</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="progress">
+    <div class="progress-text">
+      <span id="pos" aria-live="polite">1 / 56</span>
+      <span>Kattints a kártyára a megfordításhoz · ← → lapozás</span>
+    </div>
+    <div class="bar"><i id="barfill"></i></div>
+  </div>
+
+  <div class="stage">
+    <div class="card" id="card" role="button" tabindex="0" aria-label="Tanulókártya. Megfordítás: Enter vagy szóköz">
+      <div class="inner" id="inner">
+        <div class="face front de" id="front"></div>
+        <div class="face back hu" id="back" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button type="button" id="prev">‹ Előző</button>
+    <button type="button" id="flip" class="primary">Megfordítás</button>
+    <button type="button" id="next">Következő ›</button>
+  </div>
+
+  <section class="legend" aria-labelledby="lg-title">
+    <h2 id="lg-title">Melyik segédigét használjuk a Perfektben?</h2>
+    <dl>
+      <div class="row">
+        <dt><span class="aux aux-i">i.</span></dt>
+        <dd><strong>sein</strong>: a Perfektet <em>ist</em> + Partizip II alakkal képezzük. Pl. <span class="ex">ist abgefahren</span></dd>
+      </div>
+      <div class="row">
+        <dt><span class="aux aux-h">h.</span></dt>
+        <dd><strong>haben</strong>: a Perfektet <em>hat</em> + Partizip II alakkal képezzük. Pl. <span class="ex">hat angerufen</span></dd>
+      </div>
+      <div class="row">
+        <dt><span class="aux aux-ih">i./h.</span></dt>
+        <dd>Mindkét segédige lehetséges, a jelentés dönt: <strong>ist</strong>, ha irányba mozgás van, <strong>hat</strong>, ha tevékenységről vagy jármű vezetéséről van szó. Pl. fahren: <span class="ex">ist gefahren</span> = utazott, <span class="ex">hat gefahren</span> = vezetett.</dd>
+      </div>
+      <div class="row">
+        <dt><span class="aux aux-bar">|</span></dt>
+        <dd>Elváló igekötő. Pl. <span class="ex">ab|fahren</span> → er fährt ab</dd>
+      </div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // [infinitív, segédige (i / h / ih), Partizip II, jelentések]
+  // Jelentés lehet szöveg, vagy [szöveg, segédige] ha a jelentés dönti el az ist/hat választást.
+  var V = [
+    ['ab|fahren', 'i', 'abgefahren', ['elindulni']],
+    ['an|kommen', 'i', 'angekommen', ['megérkezni']],
+    ['an|fangen', 'h', 'angefangen', ['megkezdeni']],
+    ['an|rufen', 'h', 'angerufen', ['felhívni telefonon']],
+    ['auf|stehen', 'i', 'aufgestanden', ['felkelni', 'felállni']],
+    ['aus|gehen', 'i', 'ausgegangen', ['kimenni', 'szórakozni menni']],
+    ['beginnen', 'h', 'begonnen', ['elkezdeni']],
+    ['bekommen', 'h', 'bekommen', ['kapni']],
+    ['beschreiben', 'h', 'beschrieben', ['leírni valamit']],
+    ['besprechen', 'h', 'besprochen', ['megbeszélni valamit']],
+    ['bleiben', 'i', 'geblieben', ['maradni']],
+    ['bringen', 'h', 'gebracht', ['hozni']],
+    ['denken', 'h', 'gedacht', ['gondolni']],
+    ['ein|laden', 'h', 'eingeladen', ['meghívni']],
+    ['ein|schlafen', 'i', 'eingeschlafen', ['elaludni']],
+    ['essen', 'h', 'gegessen', ['enni']],
+    ['fahren', 'ih', 'gefahren', [['utazni', 'i'], ['vezetni (járművet)', 'h']]],
+    ['fern|sehen', 'h', 'ferngesehen', ['tévét nézni']],
+    ['finden', 'h', 'gefunden', ['találni']],
+    ['fliegen', 'ih', 'geflogen', [['repülni (madár)', 'i'], ['repülőt vezetni', 'h']]],
+    ['gefallen', 'h', 'gefallen', ['tetszeni']],
+    ['gehen', 'i', 'gegangen', ['menni']],
+    ['genießen', 'h', 'genossen', ['élvezni']],
+    ['heißen', 'h', 'geheißen', ['hívni', 'nevezni valakit']],
+    ['kaputt|gehen', 'i', 'kaputtgegangen', ['tönkremenni']],
+    ['kennen', 'h', 'gekannt', ['ismerni']],
+    ['kommen', 'i', 'gekommen', ['jönni']],
+    ['laufen', 'i', 'gelaufen', ['futni']],
+    ['lesen', 'h', 'gelesen', ['olvasni']],
+    ['los|fahren', 'i', 'losgefahren', ['elindulni', 'útnak indulni']],
+    ['liegen', 'h', 'gelegen', ['feküdni']],
+    ['mit|nehmen', 'h', 'mitgenommen', ['magával vinni']],
+    ['nehmen', 'h', 'genommen', ['venni', 'elvenni']],
+    ['reiten', 'ih', 'geritten', [['lovagolni valahová', 'i'], ['lovagolni (tevékenység)', 'h']]],
+    ['scheinen', 'h', 'geschienen', ['tűnni, látszani', 'sütni (nap)']],
+    ['schlafen', 'h', 'geschlafen', ['aludni']],
+    ['schreiben', 'h', 'geschrieben', ['írni']],
+    ['schwimmen', 'ih', 'geschwommen', [['úszni valahová', 'i'], ['úszni (tevékenység)', 'h']]],
+    ['sehen', 'h', 'gesehen', ['látni']],
+    ['sein', 'i', 'gewesen', ['lenni']],
+    ['singen', 'h', 'gesungen', ['énekelni']],
+    ['sprechen', 'h', 'gesprochen', ['beszélni']],
+    ['stehen', 'h', 'gestanden', ['állni']],
+    ['tragen', 'h', 'getragen', ['hordani', 'viselni']],
+    ['treffen', 'h', 'getroffen', ['találkozni valakivel', 'eltalálni']],
+    ['treiben', 'h', 'getrieben', ['űzni (pl. sportot)', 'hajtani']],
+    ['trinken', 'h', 'getrunken', ['inni']],
+    ['verstehen', 'h', 'verstanden', ['érteni']],
+    ['waschen', 'h', 'gewaschen', ['mosni']],
+    ['wiegen', 'h', 'gewogen', ['mérni, lemérni', 'nyomni (súlya van)']],
+    ['verbringen', 'h', 'verbracht', ['eltölteni (időt)']],
+    ['vergehen', 'i', 'vergangen', ['elmúlni']],
+    ['vergessen', 'h', 'vergessen', ['elfelejteni']],
+    ['verlieren', 'h', 'verloren', ['elveszíteni']],
+    ['wissen', 'h', 'gewusst', ['tudni']],
+    ['zurück|bringen', 'h', 'zurückgebracht', ['visszavinni', 'visszahozni']]
+  ];
+
+  var AUX = {
+    i: { cls: 'aux-i', chip: 'i. · sein' },
+    h: { cls: 'aux-h', chip: 'h. · haben' },
+    ih: { cls: 'aux-ih', chip: 'i./h. · sein vagy haben' }
+  };
+  var MEAN_AUX = {
+    i: { cls: 'aux-i', chip: 'ist · sein' },
+    h: { cls: 'aux-h', chip: 'hat · haben' }
+  };
+
+  var KEY = 'perfekt-igekartyak';
+  var state = { dir: 'de', filter: 'all', shuffle: false, idx: 0, flipped: false, deck: [] };
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+    if (saved.dir === 'de' || saved.dir === 'hu') state.dir = saved.dir;
+    if (['all', 'i', 'h', 'ih'].indexOf(saved.filter) !== -1) state.filter = saved.filter;
+  } catch (e) {}
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ dir: state.dir, filter: state.filter })); } catch (e) {}
+  }
+
+  var $ = function (id) { return document.getElementById(id); };
+  var card = $('card'), inner = $('inner'), front = $('front'), back = $('back');
+
+  function infHTML(s) {
+    var p = s.split('|');
+    if (p.length === 2) {
+      return '<span class="pre">' + p[0] + '</span><span class="sep" aria-hidden="true">|</span>' + p[1];
+    }
+    return s;
+  }
+
+  function pfLine(v) {
+    if (v[1] === 'i') return '<b>ist</b> ' + v[2];
+    if (v[1] === 'h') return '<b>hat</b> ' + v[2];
+    return '<b>ist</b> / <b>hat</b> ' + v[2];
+  }
+
+  function faceDE(v) {
+    var a = AUX[v[1]];
+    var h = '<span class="face-label">Német</span>';
+    h += '<div class="inf">' + infHTML(v[0]) + '</div>';
+    h += '<div class="perfekt"><span class="aux ' + a.cls + '">' + a.chip + '</span><span class="pf">' + pfLine(v) + '</span></div>';
+    if (v[1] === 'ih') {
+      h += '<p class="note">Mindkét segédige lehetséges, a jelentés dönt (a magyar oldalon jelöltük).</p>';
+    }
+    return h;
+  }
+
+  function faceHU(v) {
+    var h = '<span class="face-label">Magyar</span><ul class="meanings">';
+    v[3].forEach(function (m) {
+      if (Array.isArray(m)) {
+        var a = MEAN_AUX[m[1]];
+        h += '<li><span class="mean">' + m[0] + '</span><span class="aux ' + a.cls + '">' + a.chip + '</span></li>';
+      } else {
+        h += '<li><span class="mean">' + m + '</span></li>';
+      }
+    });
+    return h + '</ul>';
+  }
+
+  function buildDeck() {
+    var d = V.filter(function (v) { return state.filter === 'all' || v[1] === state.filter; });
+    if (state.shuffle) {
+      d = d.slice();
+      for (var k = d.length - 1; k > 0; k--) {
+        var j = Math.floor(Math.random() * (k + 1));
+        var t = d[k]; d[k] = d[j]; d[j] = t;
+      }
+    }
+    state.deck = d;
+    state.idx = 0;
+  }
+
+  function setFlipped(f) {
+    state.flipped = f;
+    inner.classList.toggle('is-flipped', f);
+    front.setAttribute('aria-hidden', f ? 'true' : 'false');
+    back.setAttribute('aria-hidden', f ? 'false' : 'true');
+  }
+
+  function render() {
+    var v = state.deck[state.idx];
+    var de = faceDE(v), hu = faceHU(v);
+    var deFirst = state.dir === 'de';
+    front.className = 'face front ' + (deFirst ? 'de' : 'hu');
+    back.className = 'face back ' + (deFirst ? 'hu' : 'de');
+    front.innerHTML = deFirst ? de : hu;
+    back.innerHTML = deFirst ? hu : de;
+    $('pos').textContent = (state.idx + 1) + ' / ' + state.deck.length;
+    $('barfill').style.width = ((state.idx + 1) / state.deck.length * 100) + '%';
+  }
+
+  // Visszaállítás az alapoldalra animáció nélkül, hogy ne látszódjon a hátoldal pörgés közben.
+  function resetThen(fn) {
+    inner.classList.add('no-anim');
+    setFlipped(false);
+    fn();
+    render();
+    void inner.offsetWidth;
+    inner.classList.remove('no-anim');
+  }
+
+  function go(delta) {
+    resetThen(function () {
+      state.idx = (state.idx + delta + state.deck.length) % state.deck.length;
+    });
+  }
+
+  function flip() { setFlipped(!state.flipped); }
+
+  function syncControls() {
+    ['de', 'hu'].forEach(function (d) {
+      $('dir-' + d).setAttribute('aria-pressed', state.dir === d ? 'true' : 'false');
+    });
+    ['all', 'i', 'h', 'ih'].forEach(function (f) {
+      var b = $('f-' + f);
+      b.setAttribute('aria-pressed', state.filter === f ? 'true' : 'false');
+      var n = f === 'all' ? V.length : V.filter(function (v) { return v[1] === f; }).length;
+      b.querySelector('.n').textContent = n;
+    });
+    $('shuffle').setAttribute('aria-pressed', state.shuffle ? 'true' : 'false');
+  }
+
+  document.querySelectorAll('[data-dir]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.dir = b.getAttribute('data-dir');
+      save();
+      syncControls();
+      resetThen(function () {});
+    });
+  });
+
+  document.querySelectorAll('[data-filter]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.filter = b.getAttribute('data-filter');
+      save();
+      syncControls();
+      resetThen(buildDeck);
+    });
+  });
+
+  $('shuffle').addEventListener('click', function () {
+    state.shuffle = !state.shuffle;
+    syncControls();
+    resetThen(buildDeck);
+  });
+
+  $('prev').addEventListener('click', function () { go(-1); });
+  $('next').addEventListener('click', function () { go(1); });
+  $('flip').addEventListener('click', flip);
+
+  var startX = null, swiped = false;
+  card.addEventListener('pointerdown', function (e) { startX = e.clientX; swiped = false; });
+  card.addEventListener('pointerup', function (e) {
+    if (startX === null) return;
+    var dx = e.clientX - startX;
+    startX = null;
+    if (Math.abs(dx) > 60) { swiped = true; go(dx < 0 ? 1 : -1); }
+  });
+  card.addEventListener('pointercancel', function () { startX = null; });
+  card.addEventListener('click', function () {
+    if (swiped) { swiped = false; return; }
+    flip();
+  });
+  card.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'ArrowRight') go(1);
+    else if (e.key === 'ArrowLeft') go(-1);
+    else if ((e.key === ' ' || e.key === 'Enter') && e.target === document.body) { e.preventDefault(); flip(); }
+  });
+
+  $('total').textContent = V.length;
+  syncControls();
+  buildDeck();
+  render();
+})();
+</script>
+
+</body></html>
